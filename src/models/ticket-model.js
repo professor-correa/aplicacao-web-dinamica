@@ -57,7 +57,8 @@ export async function findByRaffle(raffleId) {
 export async function findByUser(userId) {
   const [rows] = await pool.query(
     `SELECT t.id, t.number, t.status, t.created_at,
-            r.id AS raffle_id, r.title, r.status AS raffle_status, r.draw_date, r.winner_ticket_id
+            r.id AS raffle_id, r.title, r.status AS raffle_status, r.draw_date, r.total_tickets,
+            r.winner_ticket_id
      FROM tickets t
      INNER JOIN raffles r ON r.id = t.raffle_id
      WHERE t.user_id = ?
@@ -76,6 +77,7 @@ export async function findByUser(userId) {
       title: row.title,
       status: row.raffle_status,
       drawDate: row.draw_date,
+      totalTickets: row.total_tickets,
     },
   }));
 }
