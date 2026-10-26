@@ -1,5 +1,6 @@
 import * as authPage from '../controllers/auth-page-controller.js';
 import * as rafflePage from '../controllers/raffle-page-controller.js';
+import { adminRoutes } from './admin-routes.js';
 
 // access: 'guest' é só para quem não entrou, 'authenticated' para quem entrou
 // e 'admin' só para administradores. Sem access, a tela é pública.
@@ -14,4 +15,6 @@ export const pageRoutes = [
   { method: 'GET', path: '/register', handler: authPage.showRegister, access: 'guest' },
   { method: 'POST', path: '/register', handler: authPage.register, access: 'guest' },
   { method: 'POST', path: '/logout', handler: authPage.logout },
+
+  ...adminRoutes,
 ];
