@@ -150,6 +150,52 @@
   color: var(--color-success);
 }
 
+/* Tabelas */
+
+.table-wrapper {
+  overflow-x: auto;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-ticket);
+}
+
+.table {
+  width: 100%;
+  min-width: 36rem;
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: var(--color-brand-soft);
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+}
+
+.table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.table__number {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.ticket-result {
+  color: var(--color-ink-soft);
+}
+
+.ticket-result--won {
+  color: var(--color-success);
+}
+
 /* Estado vazio e página de erro */
 
 .empty-state,
