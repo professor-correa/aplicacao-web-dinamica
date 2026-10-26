@@ -7,5 +7,5 @@
   </g>
   <path d="M136 92h128a6 6 0 0 1 6 6v18a14 14 0 0 0 0 28v18a6 6 0 0 1-6 6H136a6 6 0 0 1-6-6v-18a14 14 0 0 0 0-28V98a6 6 0 0 1 6-6Z" fill="#ffd84d" stroke="#1f1a3d" stroke-width="4"/>
   <path d="M232 98v64" stroke="#1f1a3d" stroke-width="3" stroke-dasharray="6 6"/>
-  <path d="M166 146l10-22 10 22m-17-7h14" stroke="#1f1a3d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="181.0,112.0 185.4,123.9 198.1,124.4 188.1,132.3 191.6,144.6 181.0,137.5 170.4,144.6 173.9,132.3 163.9,124.4 176.6,123.9" fill="#5a2fc2" stroke="#1f1a3d" stroke-width="2.5" stroke-linejoin="round"/>
 </svg>
