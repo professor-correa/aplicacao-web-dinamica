@@ -26,6 +26,13 @@ export function redirect(response, location) {
   response.end();
 }
 
+// withNotice('/raffles/7', 'ticket-reserved') devolve '/raffles/7?notice=ticket-reserved'.
+export function withNotice(path, notice) {
+  const url = new URL(path, 'http://localhost');
+  url.searchParams.set('notice', notice);
+  return `${url.pathname}${url.search}`;
+}
+
 export function readBody(request) {
   return new Promise((resolve, reject) => {
     let body = '';
