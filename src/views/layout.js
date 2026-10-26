@@ -3,7 +3,7 @@ import { header } from './partials/header.js';
 import { footer } from './partials/footer.js';
 import { notice } from './partials/notice.js';
 
-const STYLESHEETS = ['reset', 'variables', 'base', 'layout', 'components'];
+const STYLESHEETS = ['reset', 'variables', 'base', 'layout', 'components', 'forms'];
 
 // Estrutura que se repete em todas as telas. Cada view entrega só o título e o miolo.
 // O context vem do roteador: usuário logado, caminho atual e aviso a mostrar.
