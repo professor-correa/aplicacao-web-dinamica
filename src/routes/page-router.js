@@ -1,7 +1,9 @@
 import { pageRoutes } from './page-routes.js';
+import { findUserByToken } from '../services/auth-service.js';
 import { findRoute } from '../utils/match-path.js';
-import { sendHtml } from '../utils/http.js';
-import { notFoundPage, serverErrorPage } from '../views/errors/error-page.js';
+import { redirect, sendHtml } from '../utils/http.js';
+import { readSessionToken } from '../utils/cookies.js';
+import { forbiddenPage, notFoundPage, serverErrorPage } from '../views/errors/error-page.js';
 
 export async function pageRouter(request, response, url) {
   const context = {
@@ -11,6 +13,9 @@ export async function pageRouter(request, response, url) {
   };
 
   try {
+    // Toda tela precisa saber quem está logado, nem que seja só para montar o menu.
+    context.user = await findUserByToken(readSessionToken(request));
+
     const { route, params, allowedMethods } = findRoute(pageRoutes, request.method, url.pathname);
 
     if (!route) {
@@ -21,7 +26,27 @@ export async function pageRouter(request, response, url) {
       return sendHtml(response, allowedMethods.length > 0 ? 405 : 404, notFoundPage(context));
     }
 
-    return await route.handler({ request, response, params, query: url.searchParams, context });
+    if (route.access === 'guest' && context.user) {
+      return redirect(response, '/');
+    }
+
+    if ((route.access === 'authenticated' || route.access === 'admin') && !context.user) {
+      const next = encodeURIComponent(`${url.pathname}${url.search}`);
+      return redirect(response, `/login?next=${next}`);
+    }
+
+    if (route.access === 'admin' && context.user.role !== 'admin') {
+      return sendHtml(response, 403, forbiddenPage(context));
+    }
+
+    return await route.handler({
+      request,
+      response,
+      params,
+      query: url.searchParams,
+      context,
+      user: context.user,
+    });
   } catch (error) {
     // O detalhe técnico fica só no terminal. Para quem usa o site, uma página genérica.
     console.error(error);
