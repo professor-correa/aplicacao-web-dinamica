@@ -5,6 +5,21 @@ import { redirect, sendHtml } from '../utils/http.js';
 import { readSessionToken } from '../utils/cookies.js';
 import { forbiddenPage, notFoundPage, serverErrorPage } from '../views/errors/error-page.js';
 
+// Depois do login, a pessoa volta para a tela onde estava.
+// Um POST não pode ser repetido por um link, então volta para a página que enviou o formulário.
+function returnPath(request, url) {
+  if (request.method === 'GET') {
+    return `${url.pathname}${url.search}`;
+  }
+
+  try {
+    const referer = new URL(request.headers.referer);
+    return referer.host === url.host ? referer.pathname : '/';
+  } catch {
+    return '/';
+  }
+}
+
 export async function pageRouter(request, response, url) {
   const context = {
     user: null,
@@ -31,7 +46,7 @@ export async function pageRouter(request, response, url) {
     }
 
     if ((route.access === 'authenticated' || route.access === 'admin') && !context.user) {
-      const next = encodeURIComponent(`${url.pathname}${url.search}`);
+      const next = encodeURIComponent(returnPath(request, url));
       return redirect(response, `/login?next=${next}`);
     }
 
